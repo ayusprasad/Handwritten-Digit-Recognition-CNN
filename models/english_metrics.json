@@ -1,0 +1,8 @@
+{
+  "dataset": "english",
+  "epochs_ran": "checkpoint_from_training_timeout",
+  "best_validation_accuracy": null,
+  "test_loss": 0.016183849424123764,
+  "test_accuracy": 0.9951000213623047,
+  "model_path": "C:\\Users\\DELL\\Documents\\Codex\\2026-06-01\\files-mentioned-by-the-user-project\\outputs\\digit_cnn_project\\models\\best_english_digit_cnn.keras"
+}
