@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Digit CNN Studio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace">
+        <aside class="panel">
+          <div>
+            <p class="kicker">CNN classifier</p>
+            <h1>Handwritten digit recognition</h1>
+          </div>
+
+          <div class="metric-grid">
+            <div>
+              <span>Dataset</span>
+              <strong id="metricDataset">devanagari</strong>
+            </div>
+            <div>
+              <span>Test accuracy</span>
+              <strong id="metricAccuracy">--</strong>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="label">Number system</span>
+            <div class="segmented" role="group" aria-label="Dataset">
+              <button class="segment active" data-dataset="auto">Auto</button>
+              <button class="segment" data-dataset="devanagari">Devanagari</button>
+              <button class="segment" data-dataset="english">English</button>
+            </div>
+          </div>
+
+          <label class="upload">
+            <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp">
+            <span>Upload image</span>
+          </label>
+
+          <div class="actions">
+            <button id="predictBtn" class="primary">Predict</button>
+            <button id="clearBtn" class="ghost">Clear</button>
+          </div>
+        </aside>
+
+        <section class="stage">
+          <div class="canvas-wrap">
+            <canvas id="drawCanvas" width="320" height="320" aria-label="Draw a digit"></canvas>
+          </div>
+          <div id="previewName" class="file-note">Draw a digit or upload an image.</div>
+        </section>
+
+        <aside class="result-panel">
+          <p class="kicker">Prediction</p>
+          <div id="resultDigit" class="digit">--</div>
+          <div id="confidence" class="confidence">Waiting for input</div>
+          <div id="modelUsed" class="model-used">Model: --</div>
+          <div id="bars" class="bars"></div>
+        </aside>
+      </section>
+    </main>
+    <script>
+      window.MODEL_METRICS = {{ metrics | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

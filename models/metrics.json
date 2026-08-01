@@ -1,0 +1,8 @@
+{
+  "dataset": "devanagari",
+  "epochs_ran": 20,
+  "best_validation_accuracy": 0.9994117617607117,
+  "test_loss": 0.008702495135366917,
+  "test_accuracy": 0.996999979019165,
+  "model_path": "C:\\Users\\DELL\\Documents\\Codex\\2026-06-01\\files-mentioned-by-the-user-project\\outputs\\digit_cnn_project\\models\\best_digit_cnn.keras"
+}
