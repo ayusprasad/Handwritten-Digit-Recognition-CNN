@@ -79,7 +79,7 @@ def predict():
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
     except Exception as exc:
-        return jsonify({"error": f"Prediction failed: {exc}"}), 500
+        return jsonify({"error": "Prediction failed. Check the uploaded image and model availability."}), 503
 
     return jsonify(result)
 
@@ -96,6 +96,6 @@ if __name__ == "__main__":
     app.run(
         debug=os.environ.get("FLASK_DEBUG") == "1",
         use_reloader=False,
-        host="127.0.0.1",
+        host=os.environ.get("HOST", "127.0.0.1"),
         port=port,
     )
