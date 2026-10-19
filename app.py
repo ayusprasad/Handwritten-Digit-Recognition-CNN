@@ -78,7 +78,7 @@ def predict():
         return jsonify({"error": str(exc)}), 503
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
-    except Exception as exc:
+    except Exception:
         return jsonify({"error": "Prediction failed. Check the uploaded image and model availability."}), 503
 
     return jsonify(result)
