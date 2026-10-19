@@ -1,66 +1,70 @@
-# Handwritten Digit CNN
+# Handwritten Digit Recognition Studio
 
-Fresh CNN project for English MNIST digits and Devanagari digits.
+[![CI](https://github.com/ayusprasad/Handwritten-Digit-Recognition-CNN/actions/workflows/ci.yml/badge.svg)](https://github.com/ayusprasad/Handwritten-Digit-Recognition-CNN/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/Deep%20learning-TensorFlow-FF6F00?logo=tensorflow&logoColor=white)
+![Flask](https://img.shields.io/badge/Interface-Flask-000000?logo=flask&logoColor=white)
 
-The Devanagari data was extracted from `project_DNN (2).zip` only from:
-
-`project_DNN/Devnagri_dataset/Dataset`
-
-The old files inside the zip were not used.
+A CNN-based Flask application for recognizing handwritten English and Devanagari digits from uploads or a drawing canvas.
 
 ## Features
 
-- Built-in Keras MNIST loader for English numbers.
-- Zip-provided Devanagari digit dataset for Devanagari numbers.
-- CNN with convolution blocks, Batch Normalization, Dropout, Global Average Pooling, AdamW, augmentation, EarlyStopping, ReduceLROnPlateau, and ModelCheckpoint.
-- Flask frontend with drawing canvas, image upload, English/Devanagari selector, confidence score, and probability bars.
+- Train separate ten-class models for English MNIST and Devanagari digits.
+- Normalize uploaded images and show the predicted label, confidence, and class probabilities.
+- Report model availability through a health endpoint.
+- Return a clear unavailable response when a trained model file is missing.
 
-## Trained Results
+## Architecture
 
-- Devanagari test accuracy: 99.70%
-- English MNIST test accuracy: 99.51%
+~~~text
+Flask UI and JSON API → image normalization → Keras CNN
+Training scripts → saved model files and metric summaries
+~~~
 
-## Setup
+## Local setup
 
-```powershell
+### Prerequisites
+
+- Python 3.11 or newer
+- The Devanagari image dataset in project_DNN/Devnagri_dataset/Dataset for that training flow
+- Network access on the first English MNIST training run so TensorFlow can download MNIST
+
+### Install
+
+~~~bash
+git clone https://github.com/ayusprasad/Handwritten-Digit-Recognition-CNN.git
+cd Handwritten-Digit-Recognition-CNN
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-```
+~~~
 
-## Train
+Activate the environment with source .venv/bin/activate on macOS/Linux or .venv/Scripts/Activate.ps1 in PowerShell.
 
-Train on the provided Devanagari dataset:
+### Train
 
-```powershell
-python train.py --dataset devanagari --epochs 35
-```
-
-Train on built-in English MNIST:
-
-```powershell
+~~~bash
 python train.py --dataset english --epochs 25
-```
+python train.py --dataset devanagari --epochs 35
+~~~
 
-Best models are saved to:
+### Run
 
-`models/best_devanagari_digit_cnn.keras`
-
-`models/best_english_digit_cnn.keras`
-
-Metrics are saved to dataset-specific JSON files, for example:
-
-`models/devanagari_metrics.json`
-
-## Run Frontend
-
-```powershell
+~~~bash
 python app.py
-```
+~~~
 
-Open:
+Open the URL printed by Flask. The local server binds to 127.0.0.1 by default. Set HOST=0.0.0.0 for container use and PORT=5000 to choose a port.
 
-`http://127.0.0.1:5000`
+## Quality checks
 
-If port `5000` is already taken, the app automatically falls back to the next free local port and prints the exact URL in the terminal.
+~~~bash
+python -m pytest -q
+ruff check --select E4,E7,E9,F app.py src/predict.py tests
+~~~
+
+GitHub Actions runs lint, image-processing and API smoke tests, Python compilation, and a Docker build. Model training and dataset downloads are not part of CI.
+
+## Model results
+
+Accuracy depends on the selected dataset and training run. Train locally to generate model-specific metrics in models/.
