@@ -90,12 +90,16 @@ def health():
 
 
 if __name__ == "__main__":
-    preferred_port = int(os.environ.get("PORT", "5000"))
-    port = pick_port(preferred_port)
-    print(f"Digit CNN Studio running at http://127.0.0.1:{port}")
+    port_env = os.environ.get("PORT")
+    host = os.environ.get("HOST", "0.0.0.0")
+    if port_env:
+        port = int(port_env)
+    else:
+        port = pick_port(5000)
+    print(f"Digit CNN Studio running at http://{host}:{port}")
     app.run(
         debug=os.environ.get("FLASK_DEBUG") == "1",
         use_reloader=False,
-        host="127.0.0.1",
+        host=host,
         port=port,
     )
